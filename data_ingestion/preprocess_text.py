@@ -1,8 +1,16 @@
+import os
 import spacy
 import re
 
 # Load the SpaCy English model
 nlp = spacy.load("en_core_web_sm")
+
+# Ensure absolute paths
+base_dir = os.path.abspath(os.path.dirname(__file__))  # Get script directory
+input_file = os.path.join(base_dir, "../data/Kushal_Resume.pdf.txt")
+output_file = os.path.join(base_dir, "../data/Kushal_Resume_preprocessed.txt")
+
+print(f"Processing text from: {input_file}")
 
 def clean_text(text):
     """Removes unwanted characters, symbols, and extra spaces."""
@@ -17,22 +25,19 @@ def preprocess_text(text):
     tokens = [token.lemma_ for token in doc if not token.is_stop and not token.is_punct]
     return " ".join(tokens)
 
-# Example usage
 if __name__ == "__main__":
-    input_file = "data/Kushal_Resume.pdf.txt"
+    if not os.path.exists(input_file):
+        print(f"Error: {input_file} not found! Run extract_text.py first!")
+        exit(1)
 
-    try:
-        with open(input_file, "r") as file:
-            raw_text = file.read()
-        
-        cleaned_text = clean_text(raw_text)
-        processed_text = preprocess_text(cleaned_text)
+    with open(input_file, "r") as file:
+        raw_text = file.read()
 
-        # Save processed text to a new file
-        with open("data/Kushal_Resume_preprocessed.txt", "w") as output_file:
-            output_file.write(processed_text)
+    cleaned_text = clean_text(raw_text)
+    processed_text = preprocess_text(cleaned_text)
 
-        print("Preprocessed text saved to data/Kushal_Resume_preprocessed.txt")
-    
-    except FileNotFoundError:
-        print(f"Error: {input_file} not found. Run extract_text.py first!")
+    # Save processed text to a new file
+    with open(output_file, "w") as output:
+        output.write(processed_text)
+
+    print(f"Preprocessed text saved to {output_file}")

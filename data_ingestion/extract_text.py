@@ -4,6 +4,13 @@ import cv2
 import os
 from PIL import Image
 
+# Ensure correct absolute paths
+base_dir = os.path.abspath(os.path.dirname(__file__))  # Get the directory of this script
+pdf_file = os.path.join(base_dir, "../data/Kushal_Resume.pdf")  # Absolute path to PDF
+output_text_file = os.path.join(base_dir, "../data/Kushal_Resume.pdf.txt")  # Output file
+
+print(f"Using PDF file: {pdf_file}")
+
 # Function to extract text from a regular PDF
 def extract_text_from_pdf(pdf_path):
     text = ""
@@ -27,13 +34,15 @@ def extract_text(pdf_path, is_scanned=False):
     else:
         return extract_text_from_pdf(pdf_path)
 
-# Example usage with your resume
 if __name__ == "__main__":
-    pdf_file = "data/Kushal_Resume.pdf"
+    if not os.path.exists(pdf_file):
+        print(f"Error: File {pdf_file} not found! Exiting...")
+        exit(1)
+
     text = extract_text(pdf_file, is_scanned=False)
 
     # Save the extracted text to a file
-    with open("data/Kushal_Resume.pdf.txt", "w") as txt_file:
+    with open(output_text_file, "w") as txt_file:
         txt_file.write(text)
 
-    print("Extracted text saved to data/Kushal_Resume.pdf.txt")
+    print(f"Extracted text saved to {output_text_file}")
