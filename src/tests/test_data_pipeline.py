@@ -1,7 +1,8 @@
 import os
 import pytest
-from data_ingestion.extract_text import extract_text_from_pdf
-from data_ingestion.preprocess_text import clean_text, preprocess_text
+
+from src.data_ingestion.extract_text import extract_text_from_pdf
+from src.data_ingestion.preprocess_text import clean_text, preprocess_text
 
 # Sample test files
 TEST_PDF = "tests/sample.pdf"
