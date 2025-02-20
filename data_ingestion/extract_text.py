@@ -29,6 +29,11 @@ def extract_text(pdf_path, is_scanned=False):
 
 # Example usage with your resume
 if __name__ == "__main__":
-    pdf_file = "data/Kushal_Resume.pdf"  # Update this to the actual filename
-    text = extract_text(pdf_file, is_scanned=False)  # Set to True if it's a scanned PDF
-    print(text)
+    pdf_file = "data/Kushal_Resume.pdf"
+    text = extract_text(pdf_file, is_scanned=False)
+
+    # Save the extracted text to a file
+    with open("data/Kushal_Resume.pdf.txt", "w") as txt_file:
+        txt_file.write(text)
+
+    print("Extracted text saved to data/Kushal_Resume.pdf.txt")
