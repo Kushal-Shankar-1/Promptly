@@ -22,9 +22,9 @@ output_file = os.path.join(base_dir, "../data/Kushal_Resume_preprocessed.txt")
 logger.info(f"Processing text from: {input_file}")
 
 def clean_text(text):
-    """Removes unwanted characters, symbols, and extra spaces."""
-    text = re.sub(r"\n+", " ", text)  # Remove multiple newlines
-    text = re.sub(r"[^a-zA-Z0-9.,!? ]", "", text)  # Keep only text and punctuation
+    """Removes unwanted characters, symbols, and extra spaces while keeping periods, commas, exclamation marks, and question marks."""
+    text = re.sub(r"([!?])\1+", r"\1", text)  # Replace multiple ! or ? with a single one
+    text = re.sub(r"[^\w\s.,!?]", "", text)  # Remove everything except letters, numbers, spaces, ., , !, ?
     text = re.sub(r"\s+", " ", text).strip()  # Remove extra spaces
     return text
 
