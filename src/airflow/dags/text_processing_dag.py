@@ -16,21 +16,20 @@ dag = DAG(
     "text_processing_pipeline",
     default_args=default_args,
     description="Extract and preprocess text from a PDF",
-    schedule_interval="@daily",  # Runs daily
+    schedule_interval="@once",  # ✅ Run immediately for testing
     catchup=False,
 )
 
-# Task 1: Extract text from PDF
+# ✅ Ensure Airflow starts in the correct working directory
 extract_text = BashOperator(
     task_id="extract_text",
-    bash_command="python /home/kushal/Promptly/data_ingestion/extract_text.py",
+    bash_command="cd /home/kushal/Promptly && python src/data_ingestion/extract_text.py",
     dag=dag,
 )
 
-# Task 2: Preprocess extracted text
 preprocess_text = BashOperator(
     task_id="preprocess_text",
-    bash_command="python /home/kushal/Promptly/data_ingestion/preprocess_text.py",
+    bash_command="cd /home/kushal/Promptly && python src/data_ingestion/preprocess_text.py",
     dag=dag,
 )
 
